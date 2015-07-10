@@ -14,9 +14,20 @@ alias ustat='history|cut -c8-|sort|uniq -c|sort -rn|head'
 alias g='git'
 alias py='python'
 
+__git_ps1 () 
+{ 
+    local b="$(git symbolic-ref HEAD 2>/dev/null)";
+    if [ -n "$b" ]; then
+        printf " \e[0;32m(%s)\e[m" "${b##refs/heads/}";
+    fi
+}
+
+PS1="\h:\W \u\$(__git_ps1)$ "
+
 function tabname {
   printf "\e]1;$1\a"
 }
+
 function winname {
   printf "\e]2;$1\a"
 }
